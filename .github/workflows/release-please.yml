@@ -1,23 +1,25 @@
-name: Continuous Delivery
+name: Versionamento
 
 on:
-  pull_request:
+  push:
     branches:
-      - develop   
+      - main
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
 
 jobs:
-    build_and_push:
-        runs-on: ubuntu-latest
-        steps:
-            -   name: Checkout
-                uses: actions/checkout@v5
-            -   name: Login to Docker Hub
-                uses: docker/login-action@v3
-                with:
-                    username: ${{ vars.DOCKER_USER }}
-                    password: ${{ secrets.DOCKER_TOKEN }}
-            -   name: Build and push
-                uses: docker/build-push-action@v6
-                with:
-                    push: true
-                    tags: acnaweb/study-apir:latest
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: googleapis/release-please-action@v4
+        with:
+          # this assumes that you have created a personal access token
+          # (PAT) and configured it as a GitHub action secret named
+          # `RELEASE_PLEASE_TOKEN` (this secret name is not important).
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
+          # this is a built-in strategy in release-please, see "Action Inputs"
+          # for more options
+          release-type: maven

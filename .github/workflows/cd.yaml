@@ -20,4 +20,4 @@ jobs:
                 uses: docker/build-push-action@v6
                 with:
                     push: true
-                    tags: acnaweb/study-apir:latest
+                    tags: henriquealves4624/gs-7-ai-work-bots:latest
